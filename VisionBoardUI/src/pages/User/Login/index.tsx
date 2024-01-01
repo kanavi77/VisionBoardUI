@@ -18,9 +18,10 @@ import {
 import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import Settings from '../../../../config/defaultSettings';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { flushSync } from 'react-dom';
 import { createStyles } from 'antd-style';
+import {listChartVoByPageUsingPost} from "@/services/IntelliDataEngine/chartController";
 
 const useStyles = createStyles(({ token }) => {
   return {
@@ -101,7 +102,11 @@ const Login: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
   const intl = useIntl();
-
+  useEffect(() => {
+    listChartVoByPageUsingPost({}).then(res=>{
+      console.error(res)
+    })
+  }, []);
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
